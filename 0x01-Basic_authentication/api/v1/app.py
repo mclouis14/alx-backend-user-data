@@ -40,12 +40,16 @@ def filter_request():
     if auth.authorization_header(request) is None:
         abort(401)
 
+    if auth.current_user(request) is None:
+        abort(403)
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
+
 
 @app.errorhandler(401)
 def unauthorized_request(error) -> str:
@@ -55,6 +59,16 @@ def unauthorized_request(error) -> str:
     return jsonify({
         "error": "Unauthorized"
     }), 401
+
+
+@app.errorhandler(403)
+def forbidden_request(error) -> str:
+    '''Forbidden request
+    '''
+
+    return jsonify({
+        "error": "Forbidden"
+    }), 403
 
 
 if __name__ == "__main__":
