@@ -14,6 +14,7 @@ from api.v1.auth.session_auth import SessionAuth
 from api.v1.auth.session_db_auth import SessionDBAuth
 from api.v1.auth.session_exp_auth import SessionExpAuth
 
+
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
@@ -42,7 +43,6 @@ def not_found(error) -> str:
 def unauthorized_request(error) -> str:
     """Unauthorized requests
     """
-
     return jsonify({"error": "Unauthorized"}), 401
 
 
@@ -50,7 +50,6 @@ def unauthorized_request(error) -> str:
 def forbidden_request(error) -> str:
     """Forbidden request
     """
-
     return jsonify({"error": "Forbidden"}), 403
 
 
@@ -60,10 +59,10 @@ def authenticate_user():
     """
     if auth:
         excluded_paths = [
-            '/api/v1/status/',
-            '/api/v1/unauthorized/',
-            '/api/v1/forbidden/',
-            '/api/v1/auth_session/login/',
+            "/api/v1/status/",
+            "/api/v1/unauthorized/",
+            "/api/v1/forbidden/",
+            "/api/v1/auth_session/login/",
         ]
         if auth.require_auth(request.path, excluded_paths):
             user = auth.current_user(request)
